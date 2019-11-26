@@ -19,7 +19,8 @@ let app = new Vue({
             poids: 5
         }
         ],
-        valeur_maximum: 0
+        valeur_maximum: 0,
+        listeObjets:[]
     },
     methods: {
         addObject() {
@@ -33,7 +34,6 @@ let app = new Vue({
             this.poids = 0;
             this.valeur = 0;
             this.last_id++;
-
         },
 
         deleteObject(id) {
@@ -45,11 +45,18 @@ let app = new Vue({
         knapsack() {
             $('#result').show();
             this.valeur_maximum = this.find_max_value();
+            $('#result2').show();
         },
 
         find_max_value() {
 
             objects = [{
+                id: 0,
+                nom: '',
+                valeur: 0,
+                poids: 0
+            }];
+            objects1 = [{
                 id: 0,
                 nom: '',
                 valeur: 0,
@@ -74,8 +81,27 @@ let app = new Vue({
 
                 }
             }
+
             console.log(matrice);
-            return matrice[rows - 1][columns - 1];
+            const result=matrice[rows - 1][columns - 1];
+            res=result;
+            console.log(res)
+            w=this.poids_maximum
+            objects1 =this.objects;
+            this.listeObjets = []
+            for( i=rows ; i>0 && res>0 ; i-- ){
+                if (res==matrice[i-1][w])
+                    continue;
+                else {
+                    console.log(objects1[i-1].nom);
+                    this.listeObjets.push(objects1[i-1].nom)
+                    res=res-objects1[i-1].valeur;
+                    w=w-objects1[i-1].poids;
+                }
+            }
+
+
+            return result
         }
     }
 
